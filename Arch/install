@@ -1,0 +1,27 @@
+#!/bin/bash
+# author: eleache
+# autoconfigure arch environment
+BACKUPCONFIGFILES=~/.backupconfigfiles
+mkdir $BACKUPCONFIGFILES
+
+function installconfig()
+{
+	cp "$2" $BACKUPCONFIGFILES
+	mv "$1" "$2"
+	echo "$1 was installed on 	$2"
+}
+
+function installscripts()
+{
+	SCRIPTSDIR=~/.myscripts
+	
+	cd myscripts
+	cp * $SCRIPTSDIR
+	cd $SCRIPTSDIR
+	chmod +x *
+	echo "$PWD installed: `ls $SCRIPTSDIR | wc -l` scripts updated"
+}
+
+# example
+installconfig 'bashrc-user' ~/.bashrc
+installscripts

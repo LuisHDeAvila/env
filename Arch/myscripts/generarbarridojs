@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+function barrido()
+{
+FILE=`echo "$1" | awk -F/ '{print $NF}' | awk -F. '{print $1}'`
+cat << BARRIDO
+export { default as $FILE } from './$FILE/$FILE';
+BARRIDO
+}
+
+find . | grep 'js' | grep -v 'index' | while read line; do
+	barrido "$line"
+done

@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+METAGOOFILE_SCRIPT()
+{
+metagoofil -d $1 -t pdf -l 100 -n 25 -o $1 
+}
+METAGOOFILE_SCRIPT "$1"

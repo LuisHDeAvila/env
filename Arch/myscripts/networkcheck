@@ -1,0 +1,22 @@
+#!/bin/bash
+function captureconections()
+{
+	ss | grep -Eo '[0-9]+\.[0-9]+'\.[0-9]+\.[0-9]+ | grep -Ev '(127.0.0.1|0.0.0.0)'
+	DATE=`date +%H:%M:%S:%N`
+	echo -e '------------'$DATE'--------------'
+}
+
+function NETWORKCHECK()
+{
+punch()
+{
+ss | grep -Eo '[0-9]+\.[0-9]+'\.[0-9]+\.[0-9]+ | grep -Ev '(127.0.0.1|0.0.0.0)' | xargs whatweb >> ~/.networkcheck;
+DATE=`date +%H:%M:%S:%N`
+echo -e "-------------------[ $DATE ]----------------------" >> ~/.networkcheck
+cat ~/.networkcheck
+}
+punch &2>>~/.networkcheckerrorlog
+}
+
+( captureconections >> ~/.networkcheckhostslog & )
+NETWORKCHECK

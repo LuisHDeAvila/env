@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+entrada="$1"
+if [[ -z $entrada ]]; then
+for code in {0..255}; do echo -e "\e[38;05;${code}m  Test  ->> $code "; done
+elif [[ $entrada -ge 0 ]]; then
+	if [[ $entrada -le 255 ]]; then
+		echo '+--------------------------------+'
+		echo -n '|'
+		echo -en "\e[38;05;${entrada}m Test  ->> $entrada \e[m"
+		echo '  \e[38;05;'$entrada
+		echo '+--------------------------------+'
+	fi
+fi

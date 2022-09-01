@@ -1,0 +1,75 @@
+# i3blocks configuration file
+# author: eleAche
+
+# Global properties
+separator=true
+separator_block_width=25
+
+[greetings]
+full_text=:
+color=#666666
+
+[greetings]
+full_text=ID
+color=#888888
+
+[greetings]
+color=#bbeebb
+command=who | wc -l
+interval=1
+
+[greetings]
+full_text=PS
+color=#888888
+
+[greetings]
+color=#bbeebb
+command=ps ax | wc -l
+interval=1
+
+[greetings]
+full_text=MEM
+color=#888888
+
+[greetings]
+color=#bbeebb
+command=free -lh | grep Mem | awk -F' ' '{print $3}'
+interval=1
+
+[greetings]
+full_text=TCP
+color=#888888
+
+[greetings]
+color=#bbeebb
+command=ss | grep -v 127.0.0.1 | grep -c tcp
+interval=1
+
+[greetings]
+full_text=UDP
+color=#888888
+
+[greetings]
+color=#bbeebb
+command=ss | grep -c udp
+interval=1
+
+[greetings]
+command=echo "CPU:`grep -i "cpu MHz" /proc/cpuinfo | wc -l`"
+color=#888888
+interval=60
+
+[greetings]
+command=echo "`grep -i "cpu MHz" /proc/cpuinfo | tail -n 1 | awk -F: '{print $2}' | awk -F. '{print $1}'`" "`grep -i "cpu MHz" /proc/cpuinfo | head -n 1 | awk -F: '{print $2}' | awk -F. '{print $1}'`" "`grep -i "cpu MHz" /proc/cpuinfo | head -n 2 | tail -n 1 | awk -F: '{print $2}' | awk -F. '{print $1}'`""`grep -i "cpu MHz" /proc/cpuinfo | head -n 3 | tail -n 1 | awk -F: '{print $2}' | awk -F. '{print $1}'`"
+color=#888888
+interval=1
+
+[time]
+command=TZ=Mexico/General date '+%D %H:%M:%S'
+interval=1
+color=#aaeeaa
+
+[greetings]
+full_text="|"
+color=#888888
+
