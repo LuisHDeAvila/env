@@ -14,8 +14,8 @@ function installconfig()
 function installscripts()
 {
 	SCRIPTSDIR=~/.myscripts
-	
-	cd myscripts
+	cd $PWD/myscripts
+	mkdir $SCRIPTSDIR
 	cp * $SCRIPTSDIR
 	cd $SCRIPTSDIR
 	chmod +x *
@@ -25,3 +25,4 @@ function installscripts()
 # example
 installconfig 'bashrc-user' ~/.bashrc
 installscripts
+

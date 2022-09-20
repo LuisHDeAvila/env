@@ -1,0 +1,6 @@
+ROOT_SIZE=80G
+SWAP_SIZE=16G
+HOME_SIZE=100G
+EXTN_DEVICE="( `grep -Eo '[0-9]+' $HOME_SIZE` + `grep -Eo '[0-9]+' $SWAP_SIZE` )"
+
+echo $EXTN_DEVICE

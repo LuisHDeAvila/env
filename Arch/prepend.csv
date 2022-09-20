@@ -1,0 +1,10 @@
+@rect,,224,4,542,36,2,left,top,#000000 0,#919191 20,
+@search,,229,4,490,36,2,left,top,#eeeeee 80,#000000 0,
+@rect,,224,44,542,462,2,left,top,#000000 0,#919191 10,
+Bloquear,i3lock -i $HOME/w.png -c '#0e0e0e',system-lock-screen
+Salir,i3-msg exit, system-log-out
+Suspender,systemctl suspend,system-suspend
+Reiniciar,systemctl reboot,system-restart
+Apagar,systemctl -i poweroff,system-shutdown
+Administrador de archivos,xdg-open ~/,thunar
+^sep()

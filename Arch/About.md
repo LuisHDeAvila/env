@@ -4,6 +4,7 @@ Files config for Arch environment. by:eleache
   # script to fast configuration
   ./install
 ```
+
 ### files
 ```bash
 # file -> path

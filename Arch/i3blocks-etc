@@ -5,9 +5,19 @@
 separator=true
 separator_block_width=25
 
+
 [greetings]
 full_text=:
 color=#666666
+
+[greetings]
+full_text=FREE
+color=#888888
+
+[greetings]
+color=#bbeebb
+command=df -h | grep home | awk '{print $4}'
+interval=5
 
 [greetings]
 full_text=ID
@@ -15,7 +25,7 @@ color=#888888
 
 [greetings]
 color=#bbeebb
-command=who | wc -l
+command=w -i | head -1 | awk -F, '{print $2}'
 interval=1
 
 [greetings]
@@ -72,4 +82,3 @@ color=#aaeeaa
 [greetings]
 full_text="|"
 color=#888888
-

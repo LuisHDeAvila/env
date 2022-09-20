@@ -12,17 +12,18 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock -i $HOME/w.png -c 
 exec --no-startup-id nm-applet
 exec_always --no-startup-id autotiling
 exec xrandr --output VGA-1 --mode 1920x1080+1024+0
+exec --no-startup-id feh ~/w.png --bg-scale
 
 # autostart: daemons
 # exec ~/./-/*
 
-set $i3lockwall i3lock -i /home/markov/wall.png
+set $i3lockwall i3lock -i /home/markov/w.png
 # UI
 default_border pixel 5
 focus_follows_mouse no
 mouse_warping none
 # exec --no-statup-id feh /home/markov/images
-font pango:Anonymous monospace 12px
+font pango:Hack Bold 16px
 
 # shortcuts
 bindsym $mod+Return exec tilix
@@ -88,24 +89,25 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 #################################################### WORKSPACES #
+#
 # asignar aplicaciones a espacios de trabajo
 assign [class="Terminator"] 10
 assign [class="vlc"] 9
 
 # colores
-set $bg-color	         #000000
-set $in-bg	         #000000
+set $bg-color            #000000
+set $in-bg               #000000
 set $text-color          #efaffb
 set $inactive-text-color #efaffb
 set $urgent-bg-color     #000000
 set $blue-color          #5DA8F4
-set $cypunk1    	 #efaffb
-set $cypunk2 		 #E27BFD
-set $cypunk3 		 #04DCDD
-set $cypunk4		 #02968B
-set $cypunk5		 #05D9E8
-set $cypunk6		 #101030
-set $green		 #00ff00
+set $cypunk1             #efaffb
+set $cypunk2             #E27BFD
+set $cypunk3             #04DCDD
+set $cypunk4             #02968B
+set $cypunk5             #05D9E8
+set $cypunk6             #101030
+set $green               #00ff00
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #999999 #285577 #ffffff #2e9ef4   #285577
@@ -159,4 +161,4 @@ urgent_workspace    #333333 #900000 #ffffff
 }
 #################################### i3 BAR #
 
-####	---------------END FILE-------------------------------------------------------- 	####
+####    ---------------END FILE--------------------------------------------------------         ####
