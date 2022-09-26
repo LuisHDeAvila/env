@@ -32,7 +32,8 @@ all_pkgs=( BASE_SYSTEM BASIC_X )
 ## Funciones
     format_it(){
     device=$1; fstype=$2
-    mkfs."$fstype" "$device" && echo " $device format!" || error "format_it(): Can't format device $device with $fstype" 
+    mkfs.ext4 "$device" && echo " $device format!" || error "format_it(): Can't format device $device with $fstype"
+    sleep 10s
 }
 
     mount_it(){
