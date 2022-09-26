@@ -4,6 +4,7 @@
     Instalacion de arch linux desde la bios. (arch base)
     Este script esta en proceso de testing. 
 
+
 '
 set -e
 
@@ -19,19 +20,19 @@ SWAP_DEVICE="${IN_DEVICE}6"
 ROOT_SIZE=80G
 SWAP_SIZE=16G
 HOME_SIZE=100G
-EXTN_DEVICE=120G
-TIME_ZONE="$(wget -qO - http://geoip.ubuntu.com/lookup | sed -n -e 's/.*<TimeZone>\(.*\)<\/TimeZone>.*/\1/p')"
+EXTN_SIZE=120G
+TIME_ZONE="$(curl http://geoip.ubuntu.com/lookup | sed -n -e 's/.*<TimeZone>\(.*\)<\/TimeZone>.*/\1/p')"
 TIME_ZONE=${TIME_ZONE:="America/Monterrey"}
 LOCALE="en_US.UTF-8"
 FILESYSTEM=ext4
 BASE_SYSTEM=( base linux linux-firmware nano grub networkmanager dhcpcd netctl wpa_supplicant dialog )
-BASIC_X=(xorg-server xorg-xinit gdm i3 tilix i3-gaps i3status i3blocks feh terminator ttf-font-awesome ttf-ionicons git nodejs npm npm-check-updates ruby)
+BASIC_X=( xorg-server xorg-xinit gdm i3 tilix i3-gaps i3status i3blocks feh terminator ttf-font-awesome ttf-ionicons git nodejs npm npm-check-updates ruby)
 all_pkgs=( BASE_SYSTEM BASIC_X )
 
 ## Funciones
     format_it(){
-        device=$1; fstype=$2
-        mkfs."$fstype" "$device" && echo " $device format!" || error "format_it(): Can't format device $device with $fstype" 
+    device=$1; fstype=$2
+    mkfs."$fstype" "$device" && echo " $device format!" || error "format_it(): Can't format device $device with $fstype" 
 }
 
     mount_it(){
@@ -42,22 +43,24 @@ all_pkgs=( BASE_SYSTEM BASIC_X )
 # comandos para sfdisk ######
 cat > /tmp/sfdisk.cmd << EOF
 $ROOT_DEVICE : start= 2048, size=+$ROOT_SIZE, type=83, bootable
-$EXTN_DEVICE : size=+$(( HOME_SIZE + SWAP_SIZE )), type=05
-$HOME_DEVICE : type=83
+$EXTN_DEVICE : size=+$EXTN_SIZE, type=05
+$HOME_DEVICE : size=+$HOME_SIZE, type=83
 $SWAP_DEVICE : size=+$SWAP_SIZE, type=82
 EOF
 ###### comandos para sfdisk #
 sfdisk "$IN_DEVICE" < /tmp/sfdisk.cmd 
+sleep 10s && partprobe /dev/sda
 format_it "$ROOT_DEVICE" "$FILESYSTEM"
 mount_it "$ROOT_DEVICE" /mnt
 format_it "$HOME_DEVICE" "$FILESYSTEM"
 mkdir /mnt/home
 mount_it "$HOME_DEVICE" /mnt/home
 mkswap "$SWAP_DEVICE" && swapon "$SWAP_DEVICE"
+echo "yes! waiting" && sleep 20s
 }
     tmproot(){
         arch-chroot /mnt "$@"
-        echo -e "\e[1;31;40m $@ \e[m"
+        echo -e "\e[1;31;40m ${@} \e[m"
 }
     setuphosts() { 
 cat > /mnt/etc/hosts << HOSTS
@@ -94,9 +97,9 @@ echo "KEYMAP=es" > /etc/vconsole.conf
 echo "$HOSTNAME" > /mnt/etc/hostname && setuphosts
 tmproot sed -i "s/#$LOCALE/$LOCALE/g" /etc/locale.gen
 tmproot locale-gen
-tmproot passwd
+read -p "Password for root" PASSWDROOT && tmproot passwd <<< $PASSWDROOT
 read -p "Please provide a username: " sudo_user && tmproot useradd -m -G wheel "$sudo_user"
-echo "Password for $sudo_user: " && tmproot passwd "$sudo_user"
+read -p "Password for $sudo_user: " sudo_passwd && tmproot passwd "$sudo_user" <<< $sudo_passwd
 tmproot grub-install "$IN_DEVICE"
 tmproot grub-mkconfig -o /boot/grub/grub.cfg
 tmproot mkinitcpio -P
