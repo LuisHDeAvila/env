@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 ## Preferences can be set up to about line 150
 # VERIFY BOOT MODE
+set -e 
+
+
 efi_boot_mode(){
     [[ -d /sys/firmware/efi/efivars ]] && return 0
     return 1
@@ -32,9 +35,9 @@ if  $(efi_boot_mode) ; then
         HOME_DEVICE="${IN_DEVICE}4"  # only for non-LVM
     fi
 else
-    # Any mobo with nvme probably is gonna be EFI I'm thinkin...
+    # Any mobo with nvme probably is gonna be EFI Im thinkin...
     # Probably no non-UEFI mobos with nvme drives
-    DISKLABEL='MBR'
+    DISKLABEL='DOS'
     unset EFI_DEVICE
     BOOT_DEVICE="${IN_DEVICE}1"
     BOOT_MTPT=/mnt/boot
@@ -531,3 +534,4 @@ echo && echo
 
 
 
+'

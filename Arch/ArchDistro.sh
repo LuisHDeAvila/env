@@ -8,6 +8,7 @@
 set -e
 
 ## Parametros de instalacion
+DISKLABEL='DOS'
 HOSTNAME="Markov"
 IN_DEVICE=/dev/sda
 default_keymap='es'
@@ -30,17 +31,16 @@ all_pkgs=( BASE_SYSTEM BASIC_X )
 ## Funciones
     format_it(){
         device=$1; fstype=$2
-        mkfs."$fstype" "$device" || error "format_it(): Can't format device $device with $fstype"
+        mkfs."$fstype" "$device" && echo " $device format!" || error "format_it(): Can't format device $device with $fstype" 
 }
 
     mount_it(){
         device=$1; mt_pt=$2
-        mount "$device" "$mt_pt" || error "mount_it(): Can't mount $device to $mt_pt"
+        mount "$device" "$mt_pt" && echo "$device mount!" || error "mount_it(): Can't mount $device to $mt_pt"
 }
     formatparts() {
 # comandos para sfdisk ######
 cat > /tmp/sfdisk.cmd << EOF
-label: dos
 $ROOT_DEVICE : start= 2048, size=+$ROOT_SIZE, type=83, bootable
 $EXTN_DEVICE : size=+$(( HOME_SIZE + SWAP_SIZE )), type=05
 $HOME_DEVICE : type=83
@@ -57,6 +57,7 @@ mkswap "$SWAP_DEVICE" && swapon "$SWAP_DEVICE"
 }
     tmproot(){
         arch-chroot /mnt "$@"
+        echo -e "\e[1;31;40m $@ \e[m"
 }
     setuphosts() { 
 cat > /mnt/etc/hosts << HOSTS
