@@ -5,43 +5,61 @@
   Description: This script configure your termux app to termux root app.
   Download termux and termux-api from Fdroid.
 '
-termux-setup-storage;
-echo '    HI !!! ';
-echo 'type Y on everything';
-  # basic
-pkg update -y;
-pkg upgrade -y;
-pkg install wget -y;
-pkg install git -y;
-  # python packages
-pkg install python;
-pkg install python2;
-pip install --upgrade pip;
-pip2 install --upgrade pip;
-pip2 install requests;
-echo 'shopt -s cdspell' >> .bashrc;
-  # tunning the buttons
-mkdir $HOME/.termux/ ;echo "extra-keys = [['ESC','/','-','HOME','UP','END','PGUP'],['TAB','CTRL','ALT','LEFT','DOWN','RIGHT','PGDN']]" >> $HOME/.termux/termux.properties && termux-reload-settings;
-  # setting
-touch ~/.hushlogin;
-  # for pentesting
-pkg i p7zip;
-pkg i clang;
-pkg i ffmpeg;
-pkg i hydra;
-pkg i nano;
-pkg i nmap;
-pkg i nodejs;
-pkg i python && pip install -U sqlmap;
-pkg i vim;
-pkg i ffmpeg python && pip install -U youtube_dl;
-  # TERMUX API
-pkg install proot-distro;
-proot-distro install debian;
-# excellent 
-clear
-echo '   welcome to linux!!' && sleep 4s;
-echo 'please into debian distro execute the script termux-debian'
-echo -e "\n\n\n\t PRESS [ENTER] TO BOOT DEBIAN DISTRO"
-read STARTUP_DEBIAN;
-sleep 2s && proot-distro login debian;
+echo 'recuerda instalar termux y termux-api desde f-droid... cargando...' && sleep 5s
+
+pkts=(wget git \
+python python2 p7zip \
+clang ffmpeg hydra \
+nano nmap nodejs \
+vim proot-distro)
+
+# functions
+function loger() {
+  chars="dbpqdbpq"
+  target="$1"
+  while :; do
+    for ((i = 0; i < ${#chars}; i++)); do
+      sleep 0.03
+      echo -en "    [\e[1;3$i;40m${chars:$i:1}\e[m] instalando ${target}" "\r"
+    done
+  done
+}
+
+function PkgInstall() {
+  pidloger=$(mktemp)
+  paquete="$1"
+  loger "$paquete" &
+  echo $! >$pidloger
+  
+  
+  pkg install ${paquete} -y >/dev/null
+  
+  
+  kill $(cat $pidloger)
+  rm $pidloger
+}
+
+# configuration
+termux-setup-storage
+echo 'shopt -s cdspell' >>.bashrc
+mkdir $HOME/.termux/
+echo "extra-keys = [['ESC','/','-','HOME','UP','END','PGUP'],['TAB','CTRL','ALT','LEFT','DOWN','RIGHT','PGDN']]" >>$HOME/.termux/termux.properties && termux-reload-settings
+touch ~/.hushlogin
+
+# install dependencies
+pkg update -y
+pkg upgrade -y
+for packtarget in ${pkts[*]}; do
+  PkgInstall $packtarget
+done
+
+pip install --upgrade pip
+pip2 install --upgrade pip
+pip2 install requests
+pip install -U sqlmap
+pip install -U youtube_dl
+proot-distro install debian
+echo 'proot-distro login debian' > ~/.bashrc
+
+# entrando a fakeroot
+proot-distro login debian
