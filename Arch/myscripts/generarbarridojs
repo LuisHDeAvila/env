@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# crea archivo de barrido para Reactjs
 function barrido()
 {
 FILE=`echo "$1" | awk -F/ '{print $NF}' | awk -F. '{print $1}'`

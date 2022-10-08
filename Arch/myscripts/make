@@ -1,0 +1,9 @@
+#!/bin/sh
+function readsystem(){ uname -a | awk '{print $3}' ; } 
+
+case `readsystem | grep -Eo '[a-zA-Z]+'` in 
+arch )
+  ./Arch/install ;;
+termux )
+  ./Termux/install ;;
+esac

@@ -2,20 +2,19 @@
 # author: eleAche
 : '
     Instalacion de arch linux desde la bios. (arch base)
-    Este script esta en proceso de testing. 
+    Este script esta en proceso de testing.
 
 
 '
 set -e
-
 ## Parametros de instalacion
 DISKLABEL='DOS'
-HOSTNAME="Markov"
+HOSTNAME="markov"
 IN_DEVICE=/dev/sda
-default_keymap='es'
+default_keymap=es
 BOOT_DEVICE="${IN_DEVICE}1"
 EXTN_DEVICE="${IN_DEVICE}2"
-HOME_DEVICE="${IN_DEVICE}5" 
+HOME_DEVICE="${IN_DEVICE}5"
 SWAP_DEVICE="${IN_DEVICE}6"
 ROOT_SIZE=80G
 SWAP_SIZE=16G
@@ -31,14 +30,18 @@ all_pkgs=( BASE_SYSTEM BASIC_X )
 
 ## Funciones
     format_it(){
-    device=$1; fstype=$2
-    mkfs.ext4 "$device" && echo " $device format!" || error "format_it(): Can't format device $device with $fstype"
-    sleep 10s
+	    local device=$1
+    	local fstype=$2
+	    mkfs.ext4 "$device" && echo " $device format!" \
+    		|| error "format_it(): Can't format device $device with $fstype"
+    	sleep 10s
 }
 
     mount_it(){
-        device=$1; mt_pt=$2
-        mount "$device" "$mt_pt" && echo "$device mount!" || error "mount_it(): Can't mount $device to $mt_pt"
+        local device=$1
+        local mt_pt=$2
+        mount "$device" "$mt_pt" && echo "$device mount!" \
+        	|| error "mount_it(): Can't mount $device to $mt_pt"
 }
     formatparts() {
 # comandos para sfdisk ######

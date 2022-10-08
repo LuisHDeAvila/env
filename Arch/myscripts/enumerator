@@ -1,0 +1,75 @@
+#!/bin/bash
+# enumera cantidad de ficheros por extension.
+
+tipos_de_ficheros=($@)
+INDEX_USERDIR=$(mktemp -d)
+TMP=$(mktemp -t)
+
+red_="\e[1;31m\033[1m"; green_="\e[0;32m\033[1m"; 
+blue_="\e[0;34m\033[1m"; yellow_="\e[0;33m\033[1m";
+purple_="\e[0;35m\033[1m"; turquesa_="\e[0;36m\033[1m";
+gray_="\e[0;37m\033[1m"; _end="\033[0m\e[0m";
+
+# definicion de funciones
+function ayuda()
+{
+cat << AYUDA
+
+Uso:	./$0 pdf jpg txt [...n]
+
+FLAGS:
+-h: muestra ayuda (help)
+-l [...n]: muestra la localizacion de archivos, por extension (list)
+
+EXAMPLES:
+$0 mp4 mp3 mkv webp php rsa
+$0 -l zip
+
+AYUDA
+exit 0
+}
+
+function enumeracion_total()
+{
+	mkdir ~/.temp_dir
+	cd $HOME; echo -e " Directorio de ${yellow_} ${USER} ${_end}:"
+	find . > $INDEX_USERDIR
+	grep -Ev '(\.\/\.)+' $INDEX_USERDIR > $TMP
+	cat $TMP > $INDEX_USERDIR
+}
+
+function contador_de_tipos()
+{	
+	echo " hay un total de `grep -E '(\.'$1')+ *' $INDEX_USERDIR | wc -l ` archivos $1"
+}
+
+function resultados()
+{
+	echo -e "$gray_"
+	echo ${tipos_de_ficheros[*]} | tr ' ' '\n' | while read tipo; do 
+	contador_de_tipos $tipo
+	done
+	echo -e "$_end"
+}
+
+function mostrar_lista()
+{
+	grep -E '(\.'$1')+ *' $INDEX_USERDIR;
+	exit 0;
+}
+
+# require arguments
+if (("$#"=="0")); then
+	ayuda
+fi
+# read options
+while getopts :l:h flag
+do
+    case "${flag}" in
+        l) mostrar_lista ${OPTARG} ;;
+        h) ayuda ;;
+    esac
+done 
+
+# MAIN
+(enumeracion_total && resultados) 2>/dev/null

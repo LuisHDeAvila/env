@@ -1,0 +1,5 @@
+# if [ `grep -c 'playlist' "$1"` -eq 1 ]; then
+	youtube-dl --write-srt --sub-lang es "$@"
+#else
+#	youtube-dl --write-srt --sub-lang es "$1"
+# fi

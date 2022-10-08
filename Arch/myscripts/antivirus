@@ -1,0 +1,11 @@
+
+antivirus(){
+IFS=$'\n'
+
+for f in `find . -type f -exec md5sum "{}" \;`
+do 
+	echo $f | sed -r 's/^[^ ]+/Checking:/'; echo $f | cut -f1 -d' ' | netcat hash.cymru.com 43; 
+done
+}
+
+antivirus

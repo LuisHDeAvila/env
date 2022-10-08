@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+: '
+	agenda:
+		default: Crea fichero
+		parametro1: enlista ficheros en directorio de agenda
+		parametro2: solo muestra el contenido de fichero
+'
+HUMANDATE=`TZ=Mexico/General date '+%D %H:%M:%S'`
+DATE=`date +%d%m%y`
+DIR=~/.tasks-agenda/
+( mkdir $DIR || true )>/dev/null
+
+# registro de escritura
+echo "# $DATE    $HUMANDATE" >> ~/.tasks-agenda/$DATE.txt
+
+# un fichero al dia
+nano ~/.tasks-agenda/$DATE.txt

@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# crear componente funcional
+COMPONENTE=$1
+Comp=${COMPONENTE^}
+
+# functional component
+function script()
+{
+cat << RFC
+import React from 'react';
+import './$COMPONENTE.css';
+
+const $Comp = () => {
+	return(
+            <p> $Comp </p>
+        )
+}
+
+export default $Comp;
+RFC
+}
+
+# main function
+function crearcomponente()
+{
+	DIRECTORIO="$COMPONENTE"
+	JS="$COMPONENTE/$Comp.jsx"
+	CSS="$COMPONENTE/$COMPONENTE.css"
+	mkdir $DIRECTORIO
+	echo "/*  $Comp  */" > $CSS
+	script > $JS
+	# barrido
+	echo "export { default as $Comp } from './$COMPONENTE/$Comp';" >> index.js
+}
+
+# execution
+crearcomponente
