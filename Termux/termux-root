@@ -3,7 +3,7 @@
   Title: termux-root
   Author: eleAche
   Description: This script configure your termux app to termux root app.
-  Download termux and termux-api from Fdroid.
+  ---- download termux and termux-api from Fdroid. ----
 '
 echo 'recuerda instalar termux y termux-api desde f-droid... cargando...' && sleep 5s
 
@@ -47,6 +47,7 @@ echo "extra-keys = [['ESC','/','-','HOME','UP','END','PGUP'],['TAB','CTRL','ALT'
 touch ~/.hushlogin
 
 # install dependencies
+echo "INDICACION: EN LOS SIGUIENTES PROCESOS INGRESA LA OPCION -N-" && sleep 3s
 pkg update -y
 pkg upgrade -y
 for packtarget in ${pkts[*]}; do
