@@ -1,0 +1,15 @@
+#!/bin/bash
+
+function updatewithupgrade(){
+    if [ $UID -eq 0 ]; then
+        sudo apt-get update -y
+        sudo apt-get upgrade -y
+        sudo apt-get update -y
+    else
+        echo -e "\e[31m hay que ser root \e[m"
+    fi
+}
+
+
+
+updatewithupgrade
