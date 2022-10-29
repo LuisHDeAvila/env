@@ -28,45 +28,46 @@ BASE_SYSTEM=( base linux linux-firmware nano grub networkmanager dhcpcd netctl w
 BASIC_X=( xorg-server xorg-xinit gdm i3 tilix i3-gaps i3status i3blocks feh terminator ttf-font-awesome ttf-ionicons git nodejs npm npm-check-updates ruby)
 all_pkgs=( BASE_SYSTEM BASIC_X )
 
-## Funciones
-    format_it(){
-	    local device=$1
-    	local fstype=$2
-	    mkfs.ext4 "$device" && echo " $device format!" \
-    		|| error "format_it(): Can't format device $device with $fstype"
-    	sleep 10s
-}
+# Funciones
 
+    format_it(){
+  local device=$1
+  local fstype=$2
+  mkfs.ext4 "$device" && echo " $device format!" \
+  || error "format_it(): Can't format device $device with $fstype"
+  sleep 10s
+}
     mount_it(){
-        local device=$1
-        local mt_pt=$2
-        mount "$device" "$mt_pt" && echo "$device mount!" \
-        	|| error "mount_it(): Can't mount $device to $mt_pt"
+  local device=$1
+  local mt_pt=$2
+  mount "$device" "$mt_pt" && echo "$device mount!" \
+  || error "mount_it(): Can't mount $device to $mt_pt"
 }
     formatparts() {
-# comandos para sfdisk ######
 cat > /tmp/sfdisk.cmd << EOF
+label: dos
+device: $IN_DEVICE
 $ROOT_DEVICE : start= 2048, size=+$ROOT_SIZE, type=83, bootable
-$EXTN_DEVICE : size=+$EXTN_SIZE, type=05
+$EXTN_DEVICE : size=+$EXTN_SIZE, type=5
 $HOME_DEVICE : size=+$HOME_SIZE, type=83
 $SWAP_DEVICE : size=+$SWAP_SIZE, type=82
 EOF
-###### comandos para sfdisk #
-sfdisk "$IN_DEVICE" < /tmp/sfdisk.cmd 
-sleep 10s && partprobe /dev/sda
-format_it "$ROOT_DEVICE" "$FILESYSTEM"
-mount_it "$ROOT_DEVICE" /mnt
-format_it "$HOME_DEVICE" "$FILESYSTEM"
-mkdir /mnt/home
-mount_it "$HOME_DEVICE" /mnt/home
-mkswap "$SWAP_DEVICE" && swapon "$SWAP_DEVICE"
-echo "yes! waiting" && sleep 20s
+  sfdisk < /tmp/sfdisk.cmd
+  sleep 10s
+  partprobe $IN_DEVICE
+  format_it $ROOT_DEVICE $FILESYSTEM
+  mount_it $ROOT_DEVICE /mnt
+  format_it $HOME_DEVICE $FILESYSTEM
+  mkdir /mnt/home
+  mount_it $HOME_DEVICE /mnt/home
+  mkswap $SWAP_DEVICE && swapon $SWAP_DEVICE
+  echo "yes! waiting" && sleep 10s
 }
     tmproot(){
-        arch-chroot /mnt "$@"
-        echo -e "\e[1;31;40m ${@} \e[m"
+  arch-chroot /mnt "$@"
+  echo -e "\e[1;31;40m ${@} \e[m"
 }
-    setuphosts() { 
+    setuphosts(){
 cat > /mnt/etc/hosts << HOSTS
 127.0.0.1      localhost
 ::1            localhost

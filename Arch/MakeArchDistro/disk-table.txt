@@ -1,0 +1,9 @@
+# example partition table
+label: dos
+device: /dev/sda
+unit: sectors
+sector-size: 512
+/dev/sda1 : start=        2048, size=   125829120, type=83, bootable
+/dev/sda2 : start=   125831168, size=   186750640, type=5
+/dev/sda5 : start=   125833216, size=   144703488, type=83
+/dev/sda6 : start=   270538752, size=    16777216, type=82

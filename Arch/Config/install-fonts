@@ -1,0 +1,1 @@
+pacman -Ss ttf | grep -v installed | awk '/.+\/[a-zA-Z0-9]+ /{print $2}' | awk '{print $1}'
