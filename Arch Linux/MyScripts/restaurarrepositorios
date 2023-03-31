@@ -1,0 +1,26 @@
+sudo pacman-key --refresh-keys
+pacman -Syu
+pacman -S archlinux-keyring
+pacman -Syyu
+pacman -Scc
+reflector -l 10 > /tmp/reflector.tmp
+mv /tmp/reflector.tmp /etc/pacman.d/mirrorlist
+rm -rf /root/.gnupg/ 
+rm -rf /etc/pacman.d/gnupg
+sudo pacman-key --init
+sudo pacman-key --refresh-keys
+sudo pacman-key --populate archlinux
+curl https://blackarch.org/strap.sh | sudo bash
+sudo pacman-key --populate blackarch
+sudo pacman -Scc
+sudo pacman -Syyu
+
+
+: '
+ asi se actualiza la llave original, solo se actualiza la fecha
+ wget 'http://mir.archlinux.fr/core/os/i686/archlinux-keyring-20160402-1-any.pkg.tar.xz'
+ md5sum archlinux-keyring-20160402-1-any.pkg.tar.xz 8b84ed114a37e12e14ddd00b0da5df31
+ pacman -U archlinux-keyring-20180108-1-any.pkg.tar.xz
+ pacman -Syyuu
+ pacman -Syu
+'

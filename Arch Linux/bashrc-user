@@ -1,6 +1,7 @@
 #
 # ~/.bashrc
 # Author: eleAche
+source ~/.config/scripts_env/*
 
 function banner(){
 cat << BANNER
@@ -11,9 +12,6 @@ BANNER
 banner | pv -qL 60
 
 # settings
-if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
-        source /etc/profile.d/vte.sh
-fi
 case $- in
     *i*) ;;
       *) return;;
@@ -44,10 +42,13 @@ export HISTIGNORE="ls:ps:history:proxychains"
 
 # ALIASES
 # comandos con caracter de espacio al principio, no son incluidos en el historial
+alias sss='ss -lpntu'
+# alias trans=' trans -b :es -x 127.0.0.1:9040 -no-browser '
 alias docker='sudo docker '
 alias myscripts='ls ~/.myscripts'
 alias bashrc='nano ~/.bashrc'
-alias networkcheck=' NETWORKCHECK || echo "please, install whatweb"'
+alias networkcheck=' NETWORKCHECK 2>> ~/.networkcheckerrorlog || echo "please, install whatweb"'
+alias ytmp3='yt-dlp -x --audio-format mp3 --audio-quality 0 '
 alias tree='tree --dirsfirst -F'
 alias ls='lsd --color=auto'
 alias isvulnerable=' cat ~/.exploitslist | grep'
@@ -58,25 +59,30 @@ alias firefox='firejail firefox >/dev/null &'
 alias chromium='chromium & >/dev/null'
 alias es='cd ~/pdfs/traducciones'
 alias unicron='sudo pacman -Sy --noconfirm'
-alias unicronss='pacman -Ss '
+alias unicronss='pacman -Ss'
 alias SPEAKER='espeak-ng -v "es-419" '
 alias historyan='watch -n 1 "netstat -tpanl | grep ESTABLISHED"'
 alias showfatfiles='sudo find . -type f -print0 | xargs -0 du -h | sort -hr | head -50'
 alias systemcheck='sudo lynis'
 alias getplaylist='youtube-dl -t --extract-audio --audio-format mp3 --yes-playlist'
 alias memoryuse='ps aux | sort -nk +4 | tail -20'
-# alias lynx='lynx --dump '
+alias lynx='lynx --dump '
+alias atril=' firejail atril'
 alias fatprocess='ps aux | sort -nk +4 | tail'
 alias fatfiles='find . -type f -print0 | xargs -0 du -h | sort -hr | head -50'
 alias lector='firejail evince'
 alias goofile=' goofile'
-
+alias netrecon=' sudo nmap -p- --open -sS --min-rate 5000 -vvv -n -Pn '
+alias pacmanclean='sudo reflector -l 5 -r -o /etc/pacman.d/mirrorlist'
+alias mantenimiento=' medidasencasodemalware'
+alias lasthour=' sudo find /home -mmin 60 -type f'
+alias docs='cd ~/.documents || mkdir ~/.documents'
 # +------------------+
 #       SCRIPTS
 # +------------------+
 function NETWORKCHECK() {
                 punch() {
-                ss | grep -i tcp | awk -F: '{print $2}' | grep -v 127 | awk -F' ' '{print $2}' | xargs whatweb >> ~/.networkcheck;
+                ss | grep -i tcp | awk -F: '{print $2}' | grep -v 127 | awk -F' ' '{print $2}' | xargs whatweb >> ~/.networkcheck; 2>>~/.networkcheckerrorlog
                 DATE=`date +%H:%M:%S:%N`
                 echo -e "-------------------[ $DATE ]----------------------" >> ~/.networkcheck
         cat ~/.networkcheck
@@ -84,6 +90,8 @@ function NETWORKCHECK() {
 punch &2>>~/.networkcheckerrorlog
 }
 
-
 # PATH
-export PATH=$PATH":~/.myscripts:/usr/bin"
+export PATH=$PATH":~/.myscripts:/usr/bin:/home/markov/.local/share/gem/ruby/3.0.0/bin:/bin"
+if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
+        source /etc/profile.d/vte.sh
+fi

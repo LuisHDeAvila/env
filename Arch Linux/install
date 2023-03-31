@@ -8,18 +8,19 @@ USERPATH=/home/$USER
 [[ -d $BACKUPCONFIGFILES ]] || mkdir $BACKUPCONFIGFILES
 
 function install {
+	# how to use this function
 	# install filename /path/to/config
 	local file="$1"
 	local ofpath="$2"
 	[[ -e $file ]] || ( echo "$file not found!" && exit )
 	[[ -e $ofpath ]] && ( cp "$ofpath" $BACKUPCONFIGFILES && echo "ok $file is rescue on $BACKUPCONFIGFILES" )
-	cp "$file" "$ofpath && echo "$file instalado en $ofpath"
+	cp "$file" "$ofpath" && echo "$file instalado en $ofpath"
 }
 
 install i3config-user $USERPATH/.config/i3/config
 install jgmenurc-user $USERPATH/.config/jgmenu/jgmenurc
 install bashrc-user $USERPATH/.bashrc
-install preprend.csv 
+install preprend.csv
 
 # needed sudo
 if [ $UID -eq 0  ]; then

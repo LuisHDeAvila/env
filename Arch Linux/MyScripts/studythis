@@ -1,0 +1,11 @@
+#!/bin/bash
+# studythis make an study space
+if [ `file "$1" | grep -ic text` -ne "0"  ]
+	then
+		entry="$1"
+		echo $entry
+else
+	echo "solo se admiten textos"
+fi
+
+
