@@ -1,11 +1,32 @@
 #!/bin/bash
 # studythis make an study space
+blocks(){
+	# separa documento en 10 bloques
+	local ENTRY=$1
+	local numberlines=$(wc -l $ENTRY | awk '{print $1}')
+	local BLOCK=$(echo $(( numberlines/10 )))
+	sed -i 's/u003d//g' $ENTRY
+	for ((c=1;c<=10;c++))
+	  do
+		        let inicio=$(( BLOCK*c ))
+        		cat $ENTRY | head -$inicio | tail -$BLOCK >> PARTE$c.txt
+		done
+}
+
+studythisfile(){
+	local document="$1"
+	local newdocumentpath="~/.documents/$document"
+	[[ -e ~/.documents ]] || mkdir ~/.documents
+	mkdir "$newdocumentpath"
+	cp "$document" "${newdocumentpath}"
+	cd "$newdocumentpath"
+	blocks "$document"
+}
+
 if [ `file "$1" | grep -ic text` -ne "0"  ]
 	then
 		entry="$1"
-		echo $entry
+		studythisfile "$entry"
 else
 	echo "solo se admiten textos"
 fi
-
-
