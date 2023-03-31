@@ -75,7 +75,7 @@ color=#888888
 interval=1
 
 [time]
-command=TZ=Mexico/General date '+%D %H:%M:%S'
+command=TZ=Mexico/General date '+%D %H:%M:%S %s'
 interval=1
 color=#aaeeaa
 

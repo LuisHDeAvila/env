@@ -1,11 +1,7 @@
-70 : '
-71 alias revela='netstat -lantp | grep ESTABLISHED |awk '{print $5}' | awk -F: '{print $1}' | sort -u
-   '
-72 alias contarconexiones='netstat -anp |grep 'tcp\|udp' | awk '{print $5}' | sed s/::ffff:// | cut -
-   d: -f1 | sort | uniq -c | sort -n'
-73 alias acortarurl="curl -s -d'&url=URL' http://goo.gl/api/url | sed -e 's/{"short_url":"//' -e 's/"
-   ,"added_to_history":false}/\n/'"
-74 '
-75 alias bitoinprice='echo "1 BTC = $(curl -s https://api.coindesk.com/v1/bpi/currentprice/usd.json |
-    grep -o 'rate":"[^"]*' | cut -d\" -f3) USD"'
-76
+# POC para servir como base al desarrollo de nuevos scripts utiles
+
+alias revela='netstat -lantp | grep ESTABLISHED |awk '{print $5}' | awk -F: '{print $1}' | sort -u'
+alias contarconexiones='netstat -anp |grep 'tcp\|udp' | awk '{print $5}' | sed s/::ffff:// | cut -d: -f1 | sort | uniq -c | sort -n'
+alias acortarurl="curl -s -d'&url=URL' http://goo.gl/api/url | sed -e 's/{"short_url":"//' -e 's/","added_to_history":false}/\n/'"'
+# alias bitoinprice='echo "1 BTC = $(curl -s https://api.coindesk.com/v1/bpi/currentprice/usd.json | grep -o 'rate":"[^"]*' | cut -d\" -f3) USD'
+
