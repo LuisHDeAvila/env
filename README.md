@@ -1,4 +1,5 @@
 # Configuraciones para entornos de usuario
+![alt image](techman.jpeg)
 Simple repositorio de acceso rapido para configurar mi entorno de trabajo.
 
 #### de eleAche de avila
