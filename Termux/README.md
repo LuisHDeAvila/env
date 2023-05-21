@@ -1,7 +1,7 @@
 # Termux environment
 
-´´´bash
-bash install
-´´´
+```bash
+  bash install
+```
 
 ![alt image](phone.jpeg)
