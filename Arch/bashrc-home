@@ -4,7 +4,7 @@
 
 function banner(){
 cat << BANNER
-        MALDITO SEA EL HOMBRE QUE CONFIA EN OTRO HOMBRE.
+        EVERYTHING IS CONNECTED
 BANNER
 }
 
