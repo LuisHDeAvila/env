@@ -16,10 +16,11 @@ end
 
 
 page = scraper(source_code)
+# seleccionamos solo las cajas con codigo
 boxes_raw = page.css('div.boxed')
 
 # imprime el contenido de las cajas
-# puts boxes_raw.text
+puts boxes_raw.text
 
-# imprime el numero de cajas del articulo, para revisar e implementar cada en el un script
-puts boxes_raw.count
+# imprime el numero de cajas del articulo, para revisar e implementar cada una en un script
+# puts boxes_raw.count
